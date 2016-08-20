@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%= title %></title>
+	<link rel='stylesheet' href='/stylesheets/style.css'/>
+</head>
+<body>
+	<h1><a href="/">Nodemailer</a></h1>
+	<p>Welcome to <a href="https://nodemailer.com/"><%= title %></a></p>
+	<form action="/sendmail" method="post">
+		<fieldset>
+			<legend>Send an e-mail</legend>
+			<input type="text" name="subject" placeholder="Subject" tabindex="1"></input>
+			<textarea name="content" tabindex="2"></textarea>
+			<button type="submit" tabindex="3">Send</button>
+		</fieldset>
+	</form>
+	<p><%- messages() %></p>
+	<a href="https://nodemailer.com/">nodemailer.com</a>
+	<a href="https://mailtrap.io/">mailtrap.io</a>
+</body>
+</html>

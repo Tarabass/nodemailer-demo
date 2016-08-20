@@ -1,0 +1,39 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+
+a {
+  color: #00B7FF; }
+
+form *:not(label) {
+  border: 1px solid #00B7FF; }
+
+fieldset {
+  padding: 16px; }
+
+legend {
+  padding: 0 8px;
+  color: #00B7FF;
+  font-weight: bold;
+  font-stretch: condensed;
+  text-transform: uppercase;
+  border-width: 0 1px !important; }
+
+label {
+  width: 100px;
+  float: left; }
+
+input, textarea {
+  width: 100%;
+  margin-bottom: 8px;
+  box-sizing: border-box; }
+
+textarea {
+  height: 200px; }
+
+button {
+  padding: 8px 50px;
+  color: #00B7FF;
+  cursor: pointer; }
+
+/*# sourceMappingURL=style.css.map */
