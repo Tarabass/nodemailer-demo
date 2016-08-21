@@ -10,9 +10,15 @@
 	<form action="/sendmail" method="post">
 		<fieldset>
 			<legend>Send an e-mail</legend>
-			<input type="text" name="subject" placeholder="Subject" tabindex="1"></input>
-			<textarea name="content" tabindex="2"></textarea>
-			<button type="submit" tabindex="3">Send</button>
+			<select name="from" tabindex="1">
+				<option value="" selected>Please choose</option>
+				<option value="&quot;admin&quot; &lt;admin@peterrietveld.nl&gt;">&quot;admin&quot; &lt;admin@peterrietveld.nl&gt;</option>
+				<option value="&quot;DJ Tarabass&quot; &lt;djtarabass@gmail.com&gt;">&quot;DJ Tarabass&quot; &lt;djtarabass@gmail.com&gt;</option>
+			</select>
+			<input type="text" name="to" placeholder="To" tabindex="2"></input>
+			<input type="text" name="subject" placeholder="Subject" tabindex="3"></input>
+			<textarea name="content" tabindex="4"></textarea>
+			<button type="submit" tabindex="5">Send</button>
 		</fieldset>
 	</form>
 	<p><%- messages() %></p>

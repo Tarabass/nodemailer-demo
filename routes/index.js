@@ -13,9 +13,8 @@ router.route('/')
 router.route('/sendmail')
 	.post(function(req, res) {
 		var body = req.body,
-			// from = '"DJ Tarabass" <djtarabass@gmail.com>', // sender address
-			from = '"admin" <admin@peterrietveld.nl>',
-			to = 'peterrietveld79@gmail.com, p.rietveld@gmail.com', // list of receivers
+			from = body.from, // sender address. Example: '"DJ Tarabass" <djtarabass@gmail.com>'
+			to = body.to, // list of receivers. Example: 'djtarabass@gmail.com, p.rietveld@live.com'
 			subject = body.subject,
 			content = body.content;
 
@@ -26,7 +25,6 @@ router.route('/sendmail')
 			content: content,
 			callback: function(error, info){
 				if(!error) {
-					req.flash("info", "Email queued");
 					req.flash("info", "Email sent");
 				}
 				else {
@@ -39,13 +37,19 @@ router.route('/sendmail')
 		});
 	});
 
+/*
+ * http://stackoverflow.com/a/1461224/408487 => figure out smtp host
+ * http://stackoverflow.com/a/20100521/408487 => fix for: { [Error: unable to verify the first certificate] code: 'UNABLE_TO_VERIFY_LEAF_SIGNATURE' }
+ *
+ * 'smtps://admin:rietveld79@peterrietveld.nl:465'
+ * 'smtps://djtarabass@gmail.com:rietveld79@smtp.gmail.com'
+ */
 function sendMail(options) {
 	options = options || {};
+	// fix for: { [Error: unable to verify the first certificate] code: 'UNABLE_TO_VERIFY_LEAF_SIGNATURE' }
+	process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 	var nodemailer = require('nodemailer'),
-		transporter = nodemailer.createTransport('smtps://admin@peterrietveld.nl:rietveld79@smtp.peterrietveld.nl:465'),
-		// transporter = nodemailer.createTransport('smtps://admin@peterrietveld.nl:rietveld79@smtp.86.85.163.250:465'),
-		
-		// transporter = nodemailer.createTransport('smtps://djtarabass@gmail.com:rietveld79@smtp.gmail.com'),
+		transporter = nodemailer.createTransport('smtps://admin:rietveld79@peterrietveld.nl:465'),
 		from = options.from,
 		to = options.to,
 		subject = options.subject,
@@ -60,7 +64,6 @@ function sendMail(options) {
 		};
 
 	if(callback && typeof callback === 'function') {
-		// send mail with defined transport object
 		transporter.sendMail(mailOptions, callback);
 	}
 	else {

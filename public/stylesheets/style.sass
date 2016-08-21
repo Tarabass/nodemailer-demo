@@ -5,7 +5,7 @@ body
 a
   color: #00B7FF
 
-form *:not(label)
+form *:not(label):not(option)
   border: 1px solid #00B7FF
 
 fieldset
@@ -23,7 +23,7 @@ label
   width: 100px
   float: left
 
-input, textarea
+input, textarea, select
   width: 100%
   margin-bottom: 8px
   box-sizing: border-box
