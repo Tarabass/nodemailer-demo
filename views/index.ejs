@@ -11,7 +11,7 @@
 		</a>
 	</header>
 	<section>
-		<form action="/sendmail" method="post">
+		<form action="/sendmail" method="post" enctype="multipart/form-data">
 			<fieldset>
 				<legend>Send an e-mail</legend>
 				<input list="from" name="from" placeholder="Find an e-mail to send your e-mail from" tabindex="1">
@@ -21,8 +21,9 @@
 				</datalist>
 				<input type="text" name="to" placeholder="To" tabindex="2">
 				<input type="text" name="subject" placeholder="Subject" tabindex="3">
-				<textarea name="content" tabindex="4"></textarea>
-				<button type="submit" tabindex="5">Send</button>
+				<input type="file" name="attachment" placeholder="Attach a file" tabindex="4">
+				<textarea name="content" tabindex="5"></textarea>
+				<button type="submit" tabindex="6">Send</button>
 			</fieldset>
 		</form>
 		<p><%- messages() %></p>

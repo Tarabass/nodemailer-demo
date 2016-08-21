@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var multer = require('multer');
 
 /* GET home page. */
 router.route('/')
@@ -10,22 +11,50 @@ router.route('/')
 		});
 	});
 
+var storage =   multer.diskStorage({
+	destination: function (req, file, callback) {
+		callback(null, './uploads');
+	},
+	filename: function (req, file, callback) {
+		callback(null, file.fieldname + '-' + Date.now());
+	}
+});
+var upload = multer({ storage : storage}).fields([{ name: 'attachment', maxCount: 1 }]);
+
 router.route('/sendmail')
-	.post(function(req, res) {
+	.post(upload, function(req, res) {
 		var body = req.body,
 			from = body.from, // sender address. Example: '"DJ Tarabass" <djtarabass@gmail.com>'
 			to = body.to, // list of receivers. Example: 'djtarabass@gmail.com, p.rietveld@live.com'
 			subject = body.subject,
-			content = body.content;
+			content = body.content,
+			files = req.files,
+			attachments = files.attachment;
+
+		if(attachments && attachments.length > 0) {
+			attachments = attachments.map(function(file) {
+				return {
+					path: './uploads/' + file.filename,
+					filename: file.originalname
+				};
+			});
+		}
 
 		sendMail({
 			from: from,
 			to: to,
 			subject: subject,
 			content: content,
-			callback: function(error, info){
+			attachments: attachments,
+			callback: function(error, info) {
 				if(!error) {
 					req.flash("info", "Email sent");
+
+					if(attachments && attachments.length > 0) {
+						attachments.forEach(function(file) {
+							// delete file using file.path
+						});
+					}
 				}
 				else {
 					console.log(error);
@@ -38,6 +67,8 @@ router.route('/sendmail')
 	});
 
 /*
+ * https://github.com/nodemailer/nodemailer
+ *
  * http://stackoverflow.com/a/1461224/408487 => figure out smtp host
  * http://stackoverflow.com/a/20100521/408487 => fix for: { [Error: unable to verify the first certificate] code: 'UNABLE_TO_VERIFY_LEAF_SIGNATURE' }
  *
@@ -60,7 +91,8 @@ function sendMail(options) {
 			to: to,
 			subject: subject, // Subject line
 			text: content, // plaintext body
-			html: '<b>'+content+'</b>' // html body
+			html: '<b>'+content+'</b>', // html body
+			attachments: options.attachments
 		};
 
 	if(callback && typeof callback === 'function') {
