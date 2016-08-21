@@ -29,7 +29,8 @@ router.route('/sendmail')
 			subject = body.subject,
 			content = body.content,
 			files = req.files,
-			attachments = files.attachment;
+			attachments = files.attachment,
+			priority = body.priority;
 
 		if(attachments && attachments.length > 0) {
 			attachments = attachments.map(function(file) {
@@ -46,6 +47,7 @@ router.route('/sendmail')
 			subject: subject,
 			content: content,
 			attachments: attachments,
+			priority: priority,
 			callback: function(error, info) {
 				if(!error) {
 					req.flash("info", "Email sent");
@@ -92,7 +94,8 @@ function sendMail(options) {
 			subject: subject, // Subject line
 			text: content, // plaintext body
 			html: '<b>'+content+'</b>', // html body
-			attachments: options.attachments
+			attachments: options.attachments,
+			priority: options.priority || 'normal'
 		};
 
 	if(callback && typeof callback === 'function') {
