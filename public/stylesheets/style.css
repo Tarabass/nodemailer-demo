@@ -5,6 +5,9 @@ body {
 a {
   color: #00B7FF; }
 
+form {
+  margin-top: 24px; }
+
 form *:not(label):not(option) {
   border: 1px solid #00B7FF; }
 

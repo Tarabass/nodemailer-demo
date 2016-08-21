@@ -5,24 +5,31 @@
 	<link rel='stylesheet' href='/stylesheets/style.css'/>
 </head>
 <body>
-	<h1><a href="/">Nodemailer</a></h1>
-	<p>Welcome to <a href="https://nodemailer.com/"><%= title %></a></p>
-	<form action="/sendmail" method="post">
-		<fieldset>
-			<legend>Send an e-mail</legend>
-			<select name="from" tabindex="1">
-				<option value="" selected>Please choose</option>
-				<option value="&quot;admin&quot; &lt;admin@peterrietveld.nl&gt;">&quot;admin&quot; &lt;admin@peterrietveld.nl&gt;</option>
-				<option value="&quot;DJ Tarabass&quot; &lt;djtarabass@gmail.com&gt;">&quot;DJ Tarabass&quot; &lt;djtarabass@gmail.com&gt;</option>
-			</select>
-			<input type="text" name="to" placeholder="To" tabindex="2"></input>
-			<input type="text" name="subject" placeholder="Subject" tabindex="3"></input>
-			<textarea name="content" tabindex="4"></textarea>
-			<button type="submit" tabindex="5">Send</button>
-		</fieldset>
-	</form>
-	<p><%- messages() %></p>
-	<a href="https://nodemailer.com/">nodemailer.com</a>
-	<a href="https://mailtrap.io/">mailtrap.io</a>
+	<header>
+		<a href="/">
+			<img src="https://raw.githubusercontent.com/nodemailer/nodemailer/master/assets/nm_logo_200x136.png">
+		</a>
+	</header>
+	<section>
+		<form action="/sendmail" method="post">
+			<fieldset>
+				<legend>Send an e-mail</legend>
+				<input list="from" name="from" placeholder="Find an e-mail to send your e-mail from" tabindex="1">
+				<datalist id="from">
+					<option value="&quot;admin&quot; &lt;admin@peterrietveld.nl&gt;">
+					<option value="&quot;DJ Tarabass&quot; &lt;djtarabass@gmail.com&gt;">
+				</datalist>
+				<input type="text" name="to" placeholder="To" tabindex="2">
+				<input type="text" name="subject" placeholder="Subject" tabindex="3">
+				<textarea name="content" tabindex="4"></textarea>
+				<button type="submit" tabindex="5">Send</button>
+			</fieldset>
+		</form>
+		<p><%- messages() %></p>
+	</section>
+	<footer>
+		<a href="https://nodemailer.com/"><abbr title="https://nodemailer.com/">nodemailer</abbr></a>
+		<a href="https://mailtrap.io/">mailtrap.io</a>
+	</footer>
 </body>
 </html>
