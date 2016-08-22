@@ -77,7 +77,16 @@ function sendMail(options) {
 	// fix for: { [Error: unable to verify the first certificate] code: 'UNABLE_TO_VERIFY_LEAF_SIGNATURE' }
 	process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 	var nodemailer = require('nodemailer'),
-		transporter = nodemailer.createTransport('smtps://admin:rietveld79@peterrietveld.nl:465'),
+		smtpConfig = {
+			host: 'peterrietveld.nl',
+			port: 465,
+			secure: true, // use SSL
+			auth: {
+				user: 'admin',
+				pass: 'rietveld79'
+			}
+		},
+		transporter = nodemailer.createTransport(smtpConfig),
 		from = options.from,
 		to = options.to,
 		subject = options.subject,
