@@ -11,7 +11,7 @@ router.route('/')
 		});
 	});
 
-var storage =   multer.diskStorage({
+var storage = multer.diskStorage({
 	destination: function (req, file, callback) {
 		callback(null, './uploads');
 	},
@@ -51,18 +51,13 @@ router.route('/sendmail')
 			callback: function(error, info) {
 				if(!error) {
 					req.flash("info", "Email sent");
-
-					if(attachments && attachments.length > 0) {
-						attachments.forEach(function(file) {
-							// delete file using file.path
-						});
-					}
 				}
 				else {
 					console.log(error);
 					req.flash("error", "Email delivery failed");
 				}
 
+				deleteAttachments(attachments);
 				res.redirect('back');
 			}
 		});
@@ -104,6 +99,29 @@ function sendMail(options) {
 	else {
 		console.log('Error: %', 'Callback required');
 	}
+}
+
+function deleteAttachments(attachments) {
+	if(attachments && attachments.length > 0) {
+		attachments.forEach(function(file) {
+			deleteFile(file.path);
+		});
+	}
+}
+
+function deleteFile(filePath) {
+	var fs = require('fs');
+
+	fs.exists(filePath, function(exists) {
+		if(exists) {
+			//Show in green
+			console.log('File exists. Deleting now ...');
+			fs.unlink(filePath);
+		} else {
+			//Show in red
+			console.log('File not found, so not deleting.');
+		}
+	});
 }
 
 module.exports = router;
