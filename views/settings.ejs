@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%= title %></title>
+	<link rel='stylesheet' href='/stylesheets/style.css'/>
+</head>
+<body>
+	<header>
+		<a href="/">
+			<img src="https://raw.githubusercontent.com/nodemailer/nodemailer/master/assets/nm_logo_200x136.png">
+		</a>
+	</header>
+	<section>
+		<form action="/settings" method="post" enctype="multipart/form-data">
+			<fieldset>
+				<legend>SMTP Settings</legend>
+				<label for="host">Hostname</label>
+				<input type="text" id="host" name="host" value="<%= smtpConfig.host %>">
+				<label for="port">Portnumber</label>
+				<input type="number" id="port" name="port" value="<%= smtpConfig.port %>">
+				<label>Use SSL</label>
+				<div class="squaredFour" style="float:left">
+					<input type="checkbox" value="true" id="secure" name="secure" <% if(smtpConfig.secure) { %>checked<% } %>>
+					<label for="secure"></label>
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend>Login</legend>
+				<label for="user">Username</label>
+				<input type="text" name="user" value="<%= smtpConfig.auth.user %>">
+				<label for="pass">Password</label>
+				<input type="password" name="pass" value="<%= smtpConfig.auth.pass %>">
+			</fieldset>
+			<button type="submit">Save</button>
+		</form>
+		<p><%- messages() %></p>
+	</section>
+	<footer>
+		<a href="https://nodemailer.com/"><abbr title="https://nodemailer.com/">nodemailer</abbr></a>
+		<a href="https://mailtrap.io/">mailtrap.io</a>
+	</footer>
+</body>
+</html>

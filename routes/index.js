@@ -6,8 +6,7 @@ var multer = require('multer');
 router.route('/')
 	.get(function(req, res) {
 		res.render('index', {
-			title: 'Send mail'/*,
-			messages: req.flash('info')*/
+			title: 'Send mail'
 		});
 	});
 
@@ -77,15 +76,7 @@ function sendMail(options) {
 	// fix for: { [Error: unable to verify the first certificate] code: 'UNABLE_TO_VERIFY_LEAF_SIGNATURE' }
 	process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 	var nodemailer = require('nodemailer'),
-		smtpConfig = {
-			host: 'peterrietveld.nl',
-			port: 465,
-			secure: true, // use SSL
-			auth: {
-				user: 'admin',
-				pass: 'rietveld79'
-			}
-		},
+		smtpConfig = readFile('./config/smtp.config', false),
 		transporter = nodemailer.createTransport(smtpConfig),
 		from = options.from,
 		to = options.to,
@@ -123,14 +114,78 @@ function deleteFile(filePath) {
 
 	fs.exists(filePath, function(exists) {
 		if(exists) {
-			//Show in green
-			console.log('File exists. Deleting now ...');
 			fs.unlink(filePath);
 		} else {
-			//Show in red
 			console.log('File not found, so not deleting.');
 		}
 	});
+}
+
+router.route('/settings')
+	.get(function(req, res) {
+		var smtpConfig = readFile('./config/smtp.config', false);
+
+		res.render('settings', {
+			title: 'SMTP Settings',
+			smtpConfig: smtpConfig
+		});
+	})
+	.post(upload, function(req, res) {
+		var body = req.body,
+			host = body.host,
+			port = body.port,
+			secure = body.secure === 'true',
+			user = body.user,
+			pass = body.pass,
+			smtpConfig = {
+				host: host,
+				port: port,
+				secure: secure, // use SSL
+				auth: {
+					user: user,
+					pass: pass
+				}
+			};
+
+		// TODO: save smptpConfig to file
+		writeFile('./config/smtp.config', smtpConfig);
+		readFile('./config/smtp.config');
+
+		req.flash("info", "SMTP Settings saved");
+		res.redirect('settings');
+	});
+
+function readFile(filePath, async) {
+	var jsonfile = require('jsonfile'),
+		async = async === false ? false : true;
+
+	if(async) {
+		jsonfile.readFile(filePath, function(err, obj) {
+			if(err) {
+				return console.log(err);
+			}
+
+			return obj;
+		});
+	}
+	else {
+		return jsonfile.readFileSync(filePath);
+	}
+}
+
+function writeFile(filePath, content, async) {
+	var jsonfile = require('jsonfile');
+
+	if(async) {
+		jsonfile.writeFile(filePath, content, { spaces: 4 }, function(err) {
+			if(err) {
+				return console.log(err);
+			}
+		});
+	}
+	else {
+		jsonfile.writeFileSync(filePath, content);
+	}
 }
 
 module.exports = router;
