@@ -11,25 +11,19 @@ router.route('/')
 	});
 
 var storage = multer.diskStorage({
-	destination: function (req, file, callback) {
+	destination: function(req, file, callback) {
 		callback(null, './uploads');
 	},
-	filename: function (req, file, callback) {
+	filename: function(req, file, callback) {
 		callback(null, file.fieldname + '-' + Date.now());
 	}
 });
-var upload = multer({ storage : storage}).fields([{ name: 'attachment', maxCount: 1 }]);
+var upload = multer({ storage: storage }).fields([{ name: 'attachment', maxCount: 1 }]);
 
 router.route('/sendmail')
 	.post(upload, function(req, res) {
 		var body = req.body,
-			from = body.from, // sender address. Example: '"DJ Tarabass" <djtarabass@gmail.com>'
-			to = body.to, // list of receivers. Example: 'djtarabass@gmail.com, p.rietveld@live.com'
-			subject = body.subject,
-			content = body.content,
-			files = req.files,
-			attachments = files.attachment,
-			priority = body.priority;
+			files = req.files;
 
 		if(attachments && attachments.length > 0) {
 			attachments = attachments.map(function(file) {
@@ -41,19 +35,19 @@ router.route('/sendmail')
 		}
 
 		sendMail({
-			from: from,
-			to: to,
-			subject: subject,
-			content: content,
-			attachments: attachments,
-			priority: priority,
+			from: body.from, // sender address. Example: '"DJ Tarabass" <djtarabass@gmail.com>',
+			to: body.to, // list of receivers. Example: 'djtarabass@gmail.com, p.rietveld@live.com',
+			subject: body.subject,
+			content: body.content,
+			attachments: files.attachment,
+			priority: body.priority,
 			callback: function(error, info) {
 				if(!error) {
-					req.flash("info", "Email sent");
+					req.flash('info', 'Email sent');
 				}
 				else {
 					console.log(error);
-					req.flash("error", "Email delivery failed");
+					req.flash('error', 'Email delivery failed');
 				}
 
 				deleteAttachments(attachments);
@@ -88,7 +82,7 @@ function sendMail(options) {
 			to: to,
 			subject: subject, // Subject line
 			text: content, // plaintext body
-			html: '<b>'+content+'</b>', // html body
+			html: '<b>' + content + '</b>', // html body
 			attachments: options.attachments,
 			priority: options.priority || 'normal'
 		};
@@ -115,7 +109,8 @@ function deleteFile(filePath) {
 	fs.exists(filePath, function(exists) {
 		if(exists) {
 			fs.unlink(filePath);
-		} else {
+		}
+		else {
 			console.log('File not found, so not deleting.');
 		}
 	});
@@ -123,7 +118,28 @@ function deleteFile(filePath) {
 
 router.route('/settings')
 	.get(function(req, res) {
-		var smtpConfig = readFile('./config/smtp.config', false);
+		var filePath = './config/smtp.config',
+			smtpConfig;
+
+		try {
+			smtpConfig = readFile(filePath, false);
+		}
+		catch(e) {
+			// ENOENT: no such file or directory
+			if(e.code === 'ENOENT') {
+				smtpConfig = {
+					host: '',
+					port: '',
+					secure: true, // use SSL
+					auth: {
+						user: '',
+						pass: ''
+					}
+				};
+
+				writeFile(filePath, smtpConfig, false);
+			}
+		}
 
 		res.render('settings', {
 			title: 'SMTP Settings',
@@ -132,26 +148,26 @@ router.route('/settings')
 	})
 	.post(upload, function(req, res) {
 		var body = req.body,
-			host = body.host,
-			port = body.port,
-			secure = body.secure === 'true',
-			user = body.user,
-			pass = body.pass,
 			smtpConfig = {
-				host: host,
-				port: port,
-				secure: secure, // use SSL
+				host: body.host,
+				port: body.port,
+				secure: body.secure === 'true', // use SSL
 				auth: {
-					user: user,
-					pass: pass
+					user: body.user,
+					pass: body.pass
 				}
 			};
 
-		// TODO: save smptpConfig to file
-		writeFile('./config/smtp.config', smtpConfig);
-		readFile('./config/smtp.config');
+		try {
+			writeFile('./config/smtp.config', smtpConfig);
+			req.flash('info', 'SMTP Settings saved');
+		}
+		catch(e) {
+			if(e) {
+				req.flash('error', e.message);
+			}
+		}
 
-		req.flash("info", "SMTP Settings saved");
 		res.redirect('settings');
 	});
 
@@ -169,7 +185,8 @@ function readFile(filePath, async) {
 		});
 	}
 	else {
-		return jsonfile.readFileSync(filePath);
+		// TODO: throws is not working. Issue is reported on github
+		return jsonfile.readFileSync(filePath/*, { 'throws': false }*/);
 	}
 }
 
