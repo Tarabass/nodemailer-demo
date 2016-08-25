@@ -5,11 +5,7 @@
 	<link rel='stylesheet' href='/stylesheets/style.css'/>
 </head>
 <body>
-	<header>
-		<a href="/">
-			<img src="https://raw.githubusercontent.com/nodemailer/nodemailer/master/assets/nm_logo_200x136.png">
-		</a>
-	</header>
+<% include partials/header %>
 	<section>
 		<form action="/sendmail" method="post" enctype="multipart/form-data">
 			<fieldset>
@@ -34,10 +30,6 @@
 		</form>
 		<p><%- messages() %></p>
 	</section>
-	<footer>
-		<a href="https://nodemailer.com/"><abbr title="https://nodemailer.com/">nodemailer</abbr></a>
-		<a href="https://mailtrap.io/">mailtrap.io</a>
-		<a href="/settings">Settings</a>
-	</footer>
+<% include partials/footer %>
 </body>
 </html>
