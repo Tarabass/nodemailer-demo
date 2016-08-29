@@ -23,7 +23,8 @@ var upload = multer({ storage: storage }).fields([{ name: 'attachment', maxCount
 router.route('/sendmail')
 	.post(upload, function(req, res) {
 		var body = req.body,
-			files = req.files;
+			files = req.files,
+			attachments = files.attachment;
 
 		if(attachments && attachments.length > 0) {
 			attachments = attachments.map(function(file) {
@@ -34,12 +35,13 @@ router.route('/sendmail')
 			});
 		}
 
+		// TODO: introduce html editor to write html email messages
 		sendMail({
 			from: body.from, // sender address. Example: '"DJ Tarabass" <djtarabass@gmail.com>',
 			to: body.to, // list of receivers. Example: 'djtarabass@gmail.com, p.rietveld@live.com',
 			subject: body.subject,
 			content: body.content,
-			attachments: files.attachment,
+			attachments: attachments,
 			priority: body.priority,
 			callback: function(error, info) {
 				if(!error) {
@@ -70,7 +72,7 @@ function sendMail(options) {
 	// fix for: { [Error: unable to verify the first certificate] code: 'UNABLE_TO_VERIFY_LEAF_SIGNATURE' }
 	process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 	var nodemailer = require('nodemailer'),
-		smtpConfig = readFile('./config/smtp.config', false),
+		smtpConfig = readSmtpConfig(),
 		transporter = nodemailer.createTransport(smtpConfig),
 		from = options.from,
 		to = options.to,
