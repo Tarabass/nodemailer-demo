@@ -118,28 +118,7 @@ function deleteFile(filePath) {
 
 router.route('/settings')
 	.get(function(req, res) {
-		var filePath = './config/smtp.config',
-			smtpConfig;
-
-		try {
-			smtpConfig = readFile(filePath, false);
-		}
-		catch(e) {
-			// ENOENT: no such file or directory
-			if(e.code === 'ENOENT') {
-				smtpConfig = {
-					host: '',
-					port: '',
-					secure: true, // use SSL
-					auth: {
-						user: '',
-						pass: ''
-					}
-				};
-
-				writeFile(filePath, smtpConfig, false);
-			}
-		}
+		var smtpConfig = readSmtpConfig();
 
 		res.render('settings', {
 			title: 'SMTP Settings',
@@ -158,15 +137,14 @@ router.route('/settings')
 				}
 			};
 
-		try {
-			writeFile('./config/smtp.config', smtpConfig);
-			req.flash('info', 'SMTP Settings saved');
-		}
-		catch(e) {
-			if(e) {
-				req.flash('error', e.message);
+		writeSmtpConfig(smtpConfig, function(err, result) {
+			if(result) {
+				req.flash('info', result.message);
 			}
-		}
+			else if(err) {
+				req.flash('error', err.message);
+			}
+		});
 
 		res.redirect('settings');
 	});
@@ -202,6 +180,58 @@ function writeFile(filePath, content, async) {
 	}
 	else {
 		jsonfile.writeFileSync(filePath, content);
+	}
+}
+
+function readSmtpConfig() {
+	var filePath = './config/smtp.config',
+		smtpConfig;
+
+	try {
+		smtpConfig = readFile(filePath, false);
+	}
+	catch(e) {
+		// ENOENT: no such file or directory
+		if(e.code === 'ENOENT') {
+			smtpConfig = {
+				host: '',
+				port: '',
+				secure: true, // use SSL
+				auth: {
+					user: '',
+					pass: ''
+				}
+			};
+
+			writeFile(filePath, smtpConfig, false);
+		}
+	}
+
+	return smtpConfig;
+}
+
+function writeSmtpConfig(smtpConfig, callback) {
+	var filePath = './config/smtp.config',
+		result = null,
+		err = null;
+
+	try {
+		writeFile(filePath, smtpConfig);
+		result = {
+			filePath: filePath,
+			smtpConfig: smtpConfig,
+			message: 'SMTP Settings saved'
+		};
+	}
+	catch(e) {
+		err = e;
+	}
+
+	if(callback && typeof callback === 'function') {
+		callback.call(err, result);
+	}
+	else if(err) {
+		throw err;
 	}
 }
 
