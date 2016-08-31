@@ -3,7 +3,7 @@ body
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
 
 a
-  color: #00B7FF
+  color: #29ABE2
 
 form *:not(label):not(option):not(input[type=checkbox])
   border: 1px solid #00B7FF
@@ -17,7 +17,7 @@ form > fieldset:last-of-type
 
 legend
   padding: 0 8px
-  color: #00B7FF
+  color: #29ABE2
   font-weight: bold
   font-stretch: condensed
   text-transform: uppercase
@@ -37,9 +37,11 @@ textarea
 
 button
   padding: 8px 50px
-  color: #00B7FF
+  color: #29ABE2
   cursor: pointer
 
+.mce-tinymce
+  margin-bottom: 8px !important
 
 
 .squaredFour
@@ -56,17 +58,21 @@ button
     position: absolute
     top: 0
     left: 0
-    background: #fcfff4
-    background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%)
-    border-radius: 4px
-    box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5)
+    //background: #fcfff4
+    //background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%)
+    //border-radius: 4px
+    //box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5)
+    /* mine */
+    border: 1px solid #333
+    box-sizing: border-box
+    /* eo mine */
     &:after
       content: ''
       width: 9px
       height: 5px
       position: absolute
-      top: 4px
-      left: 4px
+      top: 3px
+      left: 3px
       border: 3px solid #333
       border-top: none
       border-right: none
@@ -83,5 +89,4 @@ button
     &:checked + label:after
       opacity: 1
   
-
 
