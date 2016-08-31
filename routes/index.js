@@ -84,7 +84,7 @@ function sendMail(options) {
 			to: to,
 			subject: subject, // Subject line
 			text: content, // plaintext body
-			html: '<b>' + content + '</b>', // html body
+			html: content, // html body
 			attachments: options.attachments,
 			priority: options.priority || 'normal'
 		};

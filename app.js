@@ -28,6 +28,7 @@ app.use(require('node-sass-middleware')({
   sourceMap: true
 }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/scripts', express.static(__dirname + '/node_modules/'));
 
 // flash messages using connect-flash icw express-messages
 app.use(session({

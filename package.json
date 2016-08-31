@@ -19,6 +19,7 @@
     "multer": "^1.2.0",
     "node-sass-middleware": "0.8.0",
     "nodemailer": "^2.5.0",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "tinymce": "^4.4.2"
   }
 }
