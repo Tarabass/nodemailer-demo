@@ -11,8 +11,6 @@ var flash = require('connect-flash');
 var routes = require('./routes/index');
 
 var app = express();
-// compress all requests
-app.use(compression());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,12 +22,14 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(compression()); // compress all requests
 app.use(require('node-sass-middleware')({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
   indentedSyntax: true,
   sourceMap: true
 }));
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/scripts', express.static(__dirname + '/node_modules/'));
 
