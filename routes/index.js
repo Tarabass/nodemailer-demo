@@ -31,6 +31,14 @@ router.route('/sendmail')
 		var body = req.body,
 			files = req.files;
 
+		/*console.log(body.to);
+		 var re = /\s*;|,| |\\|\/|-\s*!/;
+		 var users = 'aaa,bbb;ccc ddd\eee/fff-ggg'.split(re);
+		 console.log(users)*/
+
+		// TODO: Introduce templates using email-templates
+		// https://github.com/crocodilejs/node-email-templates
+		// https://github.com/crocodilejs/node-email-templates/blob/master/examples/nodemailer/index.js
 		mailUtil.sendMail({
 			from: body.from, // sender address. Example: '"DJ Tarabass" <djtarabass@gmail.com>',
 			to: body.to, // list of receivers. Example: 'djtarabass@gmail.com, p.rietveld@live.com',
@@ -47,7 +55,6 @@ router.route('/sendmail')
 					req.flash('error', 'Email delivery failed');
 				}
 
-				mailUtil.deleteAttachments(attachments);
 				res.redirect('back');
 			}
 		});

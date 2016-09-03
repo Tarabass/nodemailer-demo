@@ -12,6 +12,10 @@ var fileUtil = require('../util/file');
 
 module.exports = function() {
 	return {
+		smtpConfigPath: './config/smtp.config',
+
+		attachmentsFolder: './uploads/',
+
 		/*
 		 * https://github.com/nodemailer/nodemailer
 		 *
@@ -25,14 +29,15 @@ module.exports = function() {
 			options = options || {};
 			// fix for: { [Error: unable to verify the first certificate] code: 'UNABLE_TO_VERIFY_LEAF_SIGNATURE' }
 			process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
-			var nodemailer = require('nodemailer'),
-				smtpConfig = this.readSmtpConfig(),
+			var me = this,
+				nodemailer = require('nodemailer'),
+				smtpConfig = me.readSmtpConfig(),
 				transporter = nodemailer.createTransport(smtpConfig),
 				from = options.from,
 				to = options.to,
 				subject = options.subject,
 				content = options.content,
-				attachments = this.formatAttachments(options.attachments),
+				attachments = me.formatAttachments(options.attachments),
 				priority = options.priority || 'normal',
 				callback = options.callback,
 				mailOptions = {
@@ -46,7 +51,10 @@ module.exports = function() {
 				};
 
 			if(callback && typeof callback === 'function') {
-				transporter.sendMail(mailOptions, callback);
+				transporter.sendMail(mailOptions, function(error, info) {
+					callback(error, info);
+					me.deleteAttachments(attachments);
+				});
 			}
 			else {
 				console.log('Error: %', 'Callback required');
@@ -54,10 +62,12 @@ module.exports = function() {
 		},
 
 		formatAttachments: function(attachments) {
+			var me = this;
+
 			if(attachments && attachments.length > 0) {
 				return attachments.map(function(file) {
 					return {
-						path: './uploads/' + file.filename,
+						path: me.attachmentsFolder + file.filename,
 						filename: file.originalname
 					};
 				});
@@ -73,7 +83,7 @@ module.exports = function() {
 		},
 
 		readSmtpConfig: function() {
-			var filePath = './config/smtp.config',
+			var filePath = this.smtpConfigPath,
 				smtpConfig;
 
 			try {
@@ -100,7 +110,7 @@ module.exports = function() {
 		},
 
 		writeSmtpConfig: function(smtpConfig, callback) {
-			var filePath = './config/smtp.config',
+			var filePath = this.smtpConfigPath,
 				result = null,
 				err = null;
 
