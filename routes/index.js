@@ -60,37 +60,4 @@ router.route('/sendmail')
 		});
 	});
 
-router.route('/settings')
-	.get(function(req, res) {
-		var smtpConfig = mailUtil.readSmtpConfig();
-
-		res.render('settings', {
-			title: 'SMTP Settings',
-			smtpConfig: smtpConfig
-		});
-	})
-	.post(upload, function(req, res) {
-		var body = req.body,
-			smtpConfig = {
-				host: body.host,
-				port: body.port,
-				secure: body.secure === 'true', // use SSL
-				auth: {
-					user: body.user,
-					pass: body.pass
-				}
-			};
-
-		mailUtil.writeSmtpConfig(smtpConfig, function(err, result) {
-			if(result) {
-				req.flash('info', result.message);
-			}
-			else if(err) {
-				req.flash('error', err.message);
-			}
-		});
-
-		res.redirect('settings');
-	});
-
 module.exports = router;

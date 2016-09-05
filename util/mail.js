@@ -93,12 +93,17 @@ module.exports = function() {
 				// ENOENT: no such file or directory
 				if(e.code === 'ENOENT') {
 					smtpConfig = {
+						description: '',
 						host: '',
 						port: '',
 						secure: true, // use SSL
 						auth: {
 							user: '',
 							pass: ''
+						},
+						identity: {
+							name: '',
+							address: ''
 						}
 					};
 

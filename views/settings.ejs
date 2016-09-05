@@ -7,25 +7,31 @@
 <body>
 <% include partials/header %>
 	<section>
-		<form action="/settings" method="post" enctype="multipart/form-data">
+		<form action="/settings" method="post">
 			<fieldset>
 				<legend>SMTP Settings</legend>
+				<label for="description">Description</label>
+				<input type="text" id="description" name="description" value="<%= smtpConfig.description %>">
 				<label for="host">Hostname</label>
 				<input type="text" id="host" name="host" value="<%= smtpConfig.host %>">
 				<label for="port">Portnumber</label>
 				<input type="number" id="port" name="port" value="<%= smtpConfig.port %>">
 				<label>Use SSL</label>
-				<div class="squaredFour" style="float:left">
+				<div class="squaredFour">
 					<input type="checkbox" value="true" id="secure" name="secure" <% if(smtpConfig.secure) { %>checked<% } %>>
 					<label for="secure"></label>
 				</div>
-			</fieldset>
-			<fieldset>
-				<legend>Login</legend>
 				<label for="user">Username</label>
 				<input type="text" name="user" value="<%= smtpConfig.auth.user %>">
 				<label for="pass">Password</label>
 				<input type="password" name="pass" value="<%= smtpConfig.auth.pass %>">
+			</fieldset>
+			<fieldset>
+				<legend>Identity</legend>
+				<label for="name">Name</label>
+				<input type="text" name="name" value="<%= smtpConfig.identity.name %>">
+				<label for="address">Address</label>
+				<input type="text" name="address" value="<%= smtpConfig.identity.address %>">
 			</fieldset>
 			<button type="submit">Save</button>
 		</form>

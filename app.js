@@ -8,7 +8,8 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var flash = require('connect-flash');
 
-var routes = require('./routes/index');
+var indexRouter = require('./routes/index');
+var settingsRouter = require('./routes/settings');
 
 var app = express();
 
@@ -50,7 +51,8 @@ app.use(function (req, res, next) {
 });
 // eo flash messages using connect-flash icw express-messages
 
-app.use('/', routes);
+app.use('/', indexRouter);
+app.use('/settings', settingsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -82,6 +84,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;

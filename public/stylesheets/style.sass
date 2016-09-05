@@ -5,7 +5,7 @@ body
 a
   color: #29ABE2
 
-form *:not(label):not(option):not(input[type=checkbox])
+form *:not(label):not(option):not(input[type="checkbox"])
   border: 1px solid #00B7FF
 
 fieldset
@@ -24,9 +24,9 @@ legend
   border-width: 0 1px !important
 
 label
-  width: 100px
-  float: left
-  margin-bottom: 6px
+//width: 100px
+//float: left
+//margin-bottom: 6px
 
 label:after
   content: ':'
@@ -36,6 +36,9 @@ input, textarea, select
   margin-bottom: 12px
   padding: 6px
   box-sizing: border-box
+
+input[type="file"]
+  padding: 0
 
 textarea
   height: 200px
@@ -48,14 +51,9 @@ button
 .mce-tinymce
   margin-bottom: 12px !important
 
-
 .squaredFour
   width: 20px
   position: relative
-  /* mine */
-  float: left
-  clear: both
-  /* eo mine */
   label
     width: 20px
     height: 20px
