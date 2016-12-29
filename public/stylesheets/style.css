@@ -2,6 +2,14 @@ body {
     padding: 50px 300px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
+ul {
+    list-style-type: none;
+}
+
+ul li {
+    display: inline;
+}
+
 a {
     color: #29ABE2;
 }
@@ -9,21 +17,24 @@ a {
 form *:not(label):not(option):not(input[type="checkbox"]) {
   border: 1px solid #00B7FF; }
 
-fieldset {
+form > fieldset {
   margin-top: 24px;
     padding: 32px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+form > fieldset > legend {
+    padding: 0 8px;
+    color: #29ABE2;
+    font-weight: bold;
+    font-stretch: condensed;
+    text-transform: uppercase;
+    border-width: 0 1px !important;
 }
 
 form > fieldset:last-of-type {
-  margin-bottom: 24px; }
-
-legend {
-  padding: 0 8px;
-    color: #29ABE2;
-  font-weight: bold;
-  font-stretch: condensed;
-  text-transform: uppercase;
-  border-width: 0 1px !important; }
+    margin-bottom: 24px;
+}
 
 label:after {
     content: ':';
@@ -33,7 +44,13 @@ input, textarea, select {
   width: 100%;
     margin-bottom: 12px;
     padding: 6px;
-  box-sizing: border-box; }
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: #29ABE2;
+}
 
 input[type="file"] {
     padding: 0;

@@ -1,6 +1,16 @@
+*
+//outline: none
+//border: 0
+//box-shadow: none
+
 body
   padding: 50px 300px
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
+
+ul
+  list-style-type: none
+  li
+    display: inline
 
 a
   color: #29ABE2
@@ -8,20 +18,20 @@ a
 form *:not(label):not(option):not(input[type="checkbox"])
   border: 1px solid #00B7FF
 
-fieldset
-  margin-top: 24px
-  padding: 32px
-
-form > fieldset:last-of-type
-  margin-bottom: 24px
-
-legend
-  padding: 0 8px
-  color: #29ABE2
-  font-weight: bold
-  font-stretch: condensed
-  text-transform: uppercase
-  border-width: 0 1px !important
+form
+  > fieldset
+    margin-top: 24px
+    padding: 32px
+    border: 1px solid rgba(0, 0, 0, 0.2)
+    > legend
+      padding: 0 8px
+      color: #29ABE2
+      font-weight: bold
+      font-stretch: condensed
+      text-transform: uppercase
+      border-width: 0 1px !important
+  > fieldset:last-of-type
+    margin-bottom: 24px
 
 label
 //width: 100px
@@ -36,6 +46,9 @@ input, textarea, select
   margin-bottom: 12px
   padding: 6px
   box-sizing: border-box
+  border: 1px solid rgba(0, 0, 0, 0.2)
+  &:focus
+    border-color: #29ABE2
 
 input[type="file"]
   padding: 0
@@ -82,14 +95,11 @@ button
       background: transparent
       opacity: 0
       transform: rotate(-45deg)
-  
+
     &:hover::after
       opacity: 0.5
-  
 
   input[type=checkbox]
     visibility: hidden
     &:checked + label:after
       opacity: 1
-  
-
