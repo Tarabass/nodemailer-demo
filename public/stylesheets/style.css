@@ -1,3 +1,11 @@
+* {
+    padding: 0;
+    margin: 0;
+    outline: none;
+    border: 0;
+    box-shadow: none;
+}
+
 body {
     padding: 50px 300px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
@@ -63,6 +71,14 @@ button {
   padding: 8px 50px;
     color: #29ABE2;
   cursor: pointer; }
+
+#messages {
+    position: absolute;
+    top: 0;
+    left: 300px;
+    right: 300px;
+    text-align: center;
+}
 
 .mce-tinymce {
     margin-bottom: 12px !important;

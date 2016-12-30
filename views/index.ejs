@@ -12,6 +12,7 @@
 	<link rel='stylesheet' href='/stylesheets/style.css'/>
 </head>
 <body>
+<% include partials/flash_messages %>
 <% include partials/header %>
 	<section>
 		<form action="/sendmail" method="post" enctype="multipart/form-data">
@@ -35,7 +36,6 @@
 				<button type="submit">Send</button>
 			</fieldset>
 		</form>
-		<p><%- messages() %></p>
 	</section>
 <% include partials/footer %>
 </body>

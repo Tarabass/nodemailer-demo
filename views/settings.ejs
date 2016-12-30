@@ -5,6 +5,7 @@
 	<link rel='stylesheet' href='/stylesheets/style.css'/>
 </head>
 <body>
+<% include partials/flash_messages %>
 <% include partials/header %>
 	<section>
 		<form action="/settings" method="post">
@@ -35,7 +36,6 @@
 			</fieldset>
 			<button type="submit">Save</button>
 		</form>
-		<p><%- messages() %></p>
 	</section>
 <% include partials/footer %>
 </body>
