@@ -26,10 +26,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(compression()); // compress all requests
 app.use(require('node-sass-middleware')({
-  src: path.join(__dirname, 'public'),
-  dest: path.join(__dirname, 'public'),
-  indentedSyntax: true,
-  sourceMap: true
+	src: path.join(__dirname, 'public'),
+	dest: path.join(__dirname, 'public'),
+	indentedSyntax: true,
+	sourceMap: true
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -37,16 +37,16 @@ app.use('/scripts', express.static(__dirname + '/node_modules/'));
 
 // flash messages using connect-flash icw express-messages
 app.use(cookieSession({
-  secret: 'books',
-  cookie: {
-    maxAge: 3600000,
-    httpOnly: true
-  }
+	secret: 'books',
+	cookie: {
+		maxAge: 3600000,
+		httpOnly: true
+	}
 }));
 app.use(flash());
-app.use(function (req, res, next) {
-  res.locals.messages = require('express-messages')(req, res);
-  next();
+app.use(function(req, res, next) {
+	res.locals.messages = require('express-messages')(req, res);
+	next();
 });
 // eo flash messages using connect-flash icw express-messages
 
@@ -55,33 +55,33 @@ app.use('/settings', settingsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+	var err = new Error('Not Found');
+	err.status = 404;
+	next(err);
 });
 
 // error handlers
 
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
+if(app.get('env') === 'development') {
+	app.use(function(err, req, res, next) {
+		res.status(err.status || 500);
+		res.render('error', {
+			message: err.message,
+			error: err
+		});
+	});
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+	res.status(err.status || 500);
+	res.render('error', {
+		message: err.message,
+		error: {}
+	});
 });
 
 module.exports = app;
