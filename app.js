@@ -85,9 +85,4 @@ app.use(function(err, req, res, next) {
   });
 });
 
-console.log(app.get('env'))
-console.log(app.get('view cache'))
-app.set('view cache', true);
-console.log(app.get('view cache'))
-
 module.exports = app;
