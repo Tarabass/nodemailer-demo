@@ -4,6 +4,7 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var cookieSession = require('cookie-session')
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var flash = require('connect-flash');
@@ -35,10 +36,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/scripts', express.static(__dirname + '/node_modules/'));
 
 // flash messages using connect-flash icw express-messages
-app.use(session({
+app.use(cookieSession({
   secret: 'books',
-  resave: false,
-  saveUninitialized: true,
   cookie: {
     maxAge: 3600000,
     httpOnly: true
