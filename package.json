@@ -1,28 +1,28 @@
 {
-	"name": "nodemailertest",
-	"version": "0.0.0",
-	"private": true,
-	"scripts": {
-		"start": "set NODE_ENV=production&&node ./bin/www",
-		"monitor": "nodemon"
-	},
-	"dependencies": {
-		"body-parser": "~1.15.1",
-		"compression": "^1.6.2",
-		"connect-flash": "^0.1.1",
-		"cookie-parser": "~1.4.3",
-		"cookie-session": "^2.0.0-alpha.2",
-		"debug": "~2.2.0",
-		"ejs": "~2.4.1",
-		"express": "~4.13.4",
-		"express-messages": "^1.0.1",
-		"express-session": "^1.14.0",
-		"jsonfile": "^2.3.1",
-		"morgan": "~1.7.0",
-		"multer": "^1.2.0",
-		"node-sass-middleware": "0.8.0",
-		"nodemailer": "^2.5.0",
-		"serve-favicon": "~2.3.0",
-		"tinymce": "^4.4.2"
-	}
+  "name": "nodemailertest",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "set NODE_ENV=production&&node ./bin/www",
+    "monitor": "nodemon"
+  },
+  "dependencies": {
+    "body-parser": "~1.15.1",
+    "compression": "^1.6.2",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "~1.4.3",
+    "cookie-session": "^2.0.0-alpha.2",
+    "debug": "~2.2.0",
+    "ejs": "~2.4.1",
+    "express": "~4.13.4",
+    "express-messages": "^1.0.1",
+    "express-session": "^1.14.0",
+    "file-morgan": "file:///D:\\Visual Studio 2013\\Projects\\npm_modules\\file-morgan",
+    "jsonfile": "^2.3.1",
+    "multer": "^1.2.0",
+    "node-sass-middleware": "0.8.0",
+    "nodemailer": "^2.5.0",
+    "serve-favicon": "~2.3.0",
+    "tinymce": "^4.4.2"
+  }
 }
