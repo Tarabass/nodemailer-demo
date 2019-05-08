@@ -21,19 +21,16 @@ app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(fileMorgan('common', {
+/*fileMorgan.token({}, function getId (req) {
+	return req.originalUrl
+})*/
+app.use(fileMorgan('tiny', {
 	watchFiles: true,
 	useStreamRotator: true,
 	dateFormat: 'DDMMYYYY',
 	fileName: 'errors.log',
 	directory: 'logfiles'/*,
-	 skip: function(req, res) {
-	 return res.statusCode < 200
-	 },
-	 immediate: true,
-	 useStreamRotator: true,
-	 dateFormat: 'DDMMYYYY',
-	 file: __dirname + '/logs/error-production.log'*/
+	skip: {a: 'a'}*/
 }));
 fileMorgan.on('change', function(path, stats) {
 	console.log('File ' + path + ' changed size to ' + stats.size)
