@@ -87,7 +87,7 @@ module.exports = function() {
 				smtpConfig;
 
 			try {
-				smtpConfig = fileUtil.readFile(filePath, false);
+				smtpConfig = fileUtil.readJsonFile(filePath, false);
 			}
 			catch(e) {
 				// ENOENT: no such file or directory
@@ -107,7 +107,7 @@ module.exports = function() {
 						}
 					};
 
-					fileUtil.writeFile(filePath, smtpConfig, false);
+					fileUtil.writeJsonFile(filePath, smtpConfig, false);
 				}
 			}
 
@@ -120,7 +120,7 @@ module.exports = function() {
 				err = null;
 
 			try {
-				fileUtil.writeFile(filePath, smtpConfig);
+				fileUtil.writeJsonFile(filePath, smtpConfig);
 				result = {
 					filePath: filePath,
 					smtpConfig: smtpConfig,

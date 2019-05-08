@@ -8,11 +8,12 @@
  *
  * Copyright (c) 2016 Strictly Internet
  */
-var jsonfile = require('jsonfile');
+const fs = require('fs')
+const jsonfile = require('jsonfile')
 
 module.exports = function() {
 	return {
-		readFile: function(filePath, async) {
+		readJsonFile: function(filePath, async) {
 			var async = async === false ? false : true;
 
 			if(async) {
@@ -30,7 +31,7 @@ module.exports = function() {
 			}
 		},
 
-		writeFile: function(filePath, content, async) {
+		writeJsonFile: function(filePath, content, async) {
 			if(async) {
 				jsonfile.writeFile(filePath, content, { spaces: 4 }, function(err) {
 					if(err) {
@@ -44,16 +45,83 @@ module.exports = function() {
 		},
 
 		deleteFile: function(filePath) {
-			var fs = require('fs');
+			// var fs = require('fs');
 
 			fs.exists(filePath, function(exists) {
-				if(exists) {
-					fs.unlink(filePath);
+				if(exists)
+					fs.unlink(filePath, function(err) {
+						if (err) throw err;
+
+						console.log(filePath + ' was deleted');
+					})
+				else
+					console.log('File not found, so not deleting.')
+			})
+		},
+
+		readDir: function(dir, options) {
+			options = options || {}
+			
+			fs.readdir(dir, (err, files) => {
+				if (err) return console.log(err)
+
+				if(options.callback && typeof options.callback === 'function') {
+					var result = []
+
+					files.forEach(file => {
+						result.push({
+							file: file,
+							stats: options.stats ? fs.statSync(dir + '/' + file) : null
+						})
+					})
+					
+					options.callback(err, result)
+				}
+			})
+		},
+
+		readFile: function(filePath, filename) {
+			options = options || {}
+			fs.readFile(filePath + '/' + filename, {
+				encoding: options.encoding || 'utf-8'
+			},
+			function(err, data) {
+				if (err) console.log(err)
+
+				return data
+			})
+		},
+
+		readLines: function(options, callback) {
+			options = options || {}
+			var filePath = options.filePath,
+				filename = options.filename,
+				lines = []
+
+			try {
+				if(!filePath || !filename) {
+					throw new Error('Required')
+				}
+				else if(!callback || typeof callback !== 'function') {
+					throw new Error('Callback is required and must be a function')
 				}
 				else {
-					console.log('File not found, so not deleting.');
+					const readline = require('readline')
+					const lineReader = readline.createInterface({
+						input: fs.createReadStream(filePath + '/' + filename),
+						crlfDelay: Infinity
+					})
+
+					lineReader.on('line', (line) => {
+						lines.push(line)
+					}).on('close', () => {
+						callback(lines)
+					})
 				}
-			});
+			}
+			catch(e) {
+				console.log(e)
+			}
 		}
 	};
 }();

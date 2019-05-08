@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%= title %></title>
+	<link rel='stylesheet' href='/stylesheets/style.css'/>
+</head>
+<body>
+<% include partials/flash_messages %>
+<% include partials/header %>
+	<code>
+        <% lines.forEach(function(line){ %>
+            <%= line %><br>
+        <% }) %>
+    </code>
+<% include partials/footer %>
+</body>
+</html>

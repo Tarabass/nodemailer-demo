@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%= title %></title>
+	<link rel='stylesheet' href='/stylesheets/style.css'/>
+</head>
+<body>
+<% include partials/flash_messages %>
+<% include partials/header %>
+	<table>
+        <tr>
+            <th>Name</th>
+            <th>Size</th>
+            <th>Create date</th>
+        </tr>
+        <% logs.forEach(function(log){ %>
+            <% include partials/log %>
+        <% }) %>
+    </table>
+<% include partials/footer %>
+</body>
+</html>
