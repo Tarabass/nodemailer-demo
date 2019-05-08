@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "set NODE_ENV=production&&node ./bin/www",
-    "monitor": "nodemon"
+    "monitor": "nodemon -e ejs,js"
   },
   "dependencies": {
     "body-parser": "~1.15.1",
