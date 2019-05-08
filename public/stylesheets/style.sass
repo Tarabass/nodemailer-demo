@@ -9,6 +9,37 @@ body
   padding: 50px 300px
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
 
+header
+  margin-bottom: 24px
+
+nav
+  li:not(:last-child):after
+    content: "|"
+
+footer
+  margin-top: 24px
+
+table
+  width: 100%
+  border-collapse: collapse
+  tr
+    td, th
+      border: 1px solid rgba(0, 0, 0, 0.2)
+      padding: 8px
+    td
+      cursor: pointer
+    th
+      padding-top: 12px
+      padding-bottom: 12px
+      text-align: left
+      background-color: #29ABE2
+      color: white
+  tr:nth-child(even)
+    background-color: #f2f2f2
+  tr:hover
+    background-color: rgba(0, 0, 0, 0.2)
+    
+
 ul
   list-style-type: none
   li
@@ -22,7 +53,7 @@ form *:not(label):not(option):not(input[type="checkbox"])
 
 form
   > fieldset
-    margin-top: 24px
+    margin-bottom: 24px
     padding: 32px
     border: 1px solid rgba(0, 0, 0, 0.2)
     > legend
@@ -33,7 +64,7 @@ form
       text-transform: uppercase
       border-width: 0 1px !important
   > fieldset:last-of-type
-    margin-bottom: 24px
+    //margin-bottom: 24px
 
 label
 //width: 100px
