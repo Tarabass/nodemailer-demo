@@ -9,9 +9,9 @@
 <% include partials/header %>
 	<table>
         <tr>
-            <th>Name</th>
-            <th>Size</th>
-            <th>Create date</th>
+            <th onclick="window.location.href = './logs?orderby=filename&orderdir=asc';">Name</th>
+            <th onclick="window.location.href = './logs?orderby=size&orderdir=asc';">Size</th>
+            <th onclick="window.location.href = './logs?orderby=date&orderdir=asc';">Create date</th>
         </tr>
         <% logs.forEach(function(log){ %>
             <% include partials/log %>

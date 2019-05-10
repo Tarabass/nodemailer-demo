@@ -35,9 +35,11 @@ router.route('/')
         else {
             fileUtil.readDir(dir, {
                 stats: true,
+                orderBy: query.orderby,
+                orderDir: query.orderdir,
                 callback: function(err, files) {
                     if(err) console.log(err)
-
+                    
                     res.render('logs', {
                         title: 'Logs',
                         logs: files

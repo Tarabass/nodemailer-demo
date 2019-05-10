@@ -65,16 +65,37 @@ module.exports = function() {
 			fs.readdir(dir, (err, files) => {
 				if (err) return console.log(err)
 
-				if(options.callback && typeof options.callback === 'function') {
-					var result = []
+				const result = files.map((v) => {
+						return {
+							filename: v,
+							stats: options.stats ? fs.statSync(dir + '/' + v) : null
+						}
+					}),
+					orderBy = options.orderBy || 'date',
+					orderDir = options.orderDir || 'asc'
 
-					files.forEach(file => {
-						result.push({
-							file: file,
-							stats: options.stats ? fs.statSync(dir + '/' + file) : null
+				switch(orderBy) {
+					case 'filename':
+						result.sort((a, b) => {
+							return orderDir === 'asc' ? a.filename.localeCompare(b.filename) : b.filename.localeCompare(a.filename)
 						})
-					})
-					
+					break
+					case 'size':
+						result.sort((a, b) => {
+							return orderDir === 'asc' ? a.stats.size - b.stats.size : b.stats.size - a.stats.size
+						})
+					break
+					case 'date':
+						result.sort((a, b) => {
+							const aTime = a.stats.mtime.getTime(),
+								bTime = b.stats.mtime.getTime()
+
+							return orderDir === 'asc' ? aTime - bTime : bTime - aTime
+						})
+					break
+				}
+
+				if(options.callback && typeof options.callback === 'function') {	
 					options.callback(err, result)
 				}
 			})
