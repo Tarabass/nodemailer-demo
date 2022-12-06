@@ -14,7 +14,7 @@
     "cookie-session": "^2.0.0-alpha.2",
     "debug": "^2.6.0",
     "ejs": "^2.5.5",
-    "express": "^4.14.0",
+    "express": "^4.17.3",
     "express-messages": "^1.0.1",
     "express-session": "^1.14.0",
     "file-morgan": "^1.1.1",
